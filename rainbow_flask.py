@@ -30,23 +30,24 @@ def transform(file_contents):
     im.save('images/'+im_path+'.png')
     return im_path
 
+def create_app():
+    app = Flask(__name__)
+    @app.route('/')
+    def form():
+        return render_template('template1.html')
 
-@app.route('/')
-def form():
-    return render_template('template1.html')
+    @app.route('/transform', methods=["POST"])
+    def transform_view():
+        request_file = request.files['data_file']
+        if not request_file:
+            return "No file was submitted"
 
-@app.route('/transform', methods=["POST"])
-def transform_view():
-    request_file = request.files['data_file']
-    if not request_file:
-        return "No file was submitted"
+        im = Image.open(request_file)
+        data = np.array(im)
 
-    im = Image.open(request_file)
-    data = np.array(im)
+        result = transform(data)
 
-    result = transform(data)
-
-    return send_file('images/'+result+'.png', as_attachment=True)
-
+        return send_file('images/'+result+'.png', as_attachment=True)
+    return app
 
 
