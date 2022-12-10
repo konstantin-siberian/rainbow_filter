@@ -27,8 +27,8 @@ def transform(file_contents):
 
     im = Image.fromarray(file_contents)
     im_path=id_generator()
-    im.save('images/'+im_path+'.png')
-    return im_path
+
+    return im
 
 def create_app():
     app = Flask(__name__)
@@ -47,7 +47,7 @@ def create_app():
 
         result = transform(data)
 
-        return send_file('images/'+result+'.png', as_attachment=True)
+        return send_file(result, as_attachment=True)
     return app
 
 
