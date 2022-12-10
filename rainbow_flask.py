@@ -27,8 +27,16 @@ def transform(file_contents):
 
     im = Image.fromarray(file_contents)
     im_path=id_generator()
+    im.save('images/'+im_path+'.png')
+    return im_path
+    # return im
 
-    return im
+'''
+mimetype='image/png'
+
+TypeError: Unable to detect the MIME type because a file name is not available. Either set 'download_name', pass a path instead of a file, or set 'mimetype'.
+
+'''
 
 def create_app():
     app = Flask(__name__)
@@ -47,7 +55,7 @@ def create_app():
 
         result = transform(data)
 
-        return send_file(result, as_attachment=True)
+        return send_file('images/'+result+'.png', as_attachment=True,mimetype='image/png')
     return app
 
 
