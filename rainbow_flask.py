@@ -26,7 +26,7 @@ def transform(file_contents):
 
     im = Image.fromarray(file_contents)
     im_path=id_generator()
-    im.save('images/'+im_path+'.png')
+    im.save('static/'+im_path+'.png')
     return im_path
     # return im
 
@@ -53,8 +53,32 @@ def create_app():
         data = np.array(im)
 
         result = transform(data)
+        html_string='''<html>
+  <body>
+        <link rel="stylesheet" href="/static/css/styles_footer.css"/>
+        <img src="/{the_path}" alt="Any image"/>
+  </body>
+</html>
+'''.format(the_path='static/'+result+'.png')
+        Html_file = open("templates/success.html", "w")
+        Html_file.write(html_string)
+        Html_file.close()
+        # return send_file('images/'+result+'.png', as_attachment=True,mimetype='image/png')
+        return render_template('success.html')
 
-        return send_file('images/'+result+'.png', as_attachment=True,mimetype='image/png')
     return app
 
 
+
+
+'''
+if __name__ == "__main__":
+    app = create_app()
+    app.run(debug=True)
+
+
+
+'''
+if __name__ == "__main__":
+    app = create_app()
+    app.run(debug=True)
