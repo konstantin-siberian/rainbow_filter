@@ -1,1 +1,1 @@
-web: gunicorn "rainbow_flask:create_app()"
+web: gunicorn "rainbow_flask:create_app() --timeout 600"
